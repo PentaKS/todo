@@ -18,5 +18,5 @@ Meet your companion waiting for you.
 * please remember the file is following 3 line mascot and 1 line space format,
 if one wish to create custom expressions or mascot kindly follow the same or else modify the `load_mascots()` in the code.
 # example image
-![alt text](image.png)
+<img src="image.png" width="50%">
 
