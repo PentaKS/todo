@@ -46,6 +46,7 @@ void read_tasks () {
         // cout << "-- Tasks Ready --" << endl;
     } else {
         cout << "-- Failed to load Tasks --" << endl;
+        system("pause");
     }
 }
 
@@ -104,6 +105,8 @@ void create_tasks (const string & time, const string & task) {
 }
 
 void delete_task (const int & task_id) {
+    if (task_id <= TaskIDs.size()) {
+
     auto id = task_id - 1;
 
     FILE_LINES.erase(FILE_LINES.begin() + id);
@@ -112,13 +115,23 @@ void delete_task (const int & task_id) {
     for(auto & i : TaskIDs)
         if (i > id + 1)
             i--;
+    }else {
+        cout << "Invalid Task ID" << endl;
+        system("pause");
+    }
 }
 
 void modify_task (const int & task_id, const string & modified_string) {
-    auto id = task_id - 1;
+    if (task_id <= TASKS.size()) {
+
+        auto id = task_id - 1;
     
-    FILE_LINES[id][1] = modified_string;
-    FILE_LINES[id][0] = get_time_now();
+        FILE_LINES[id][1] = modified_string;
+        FILE_LINES[id][0] = get_time_now();
+    }else {
+        cout << "Invalid Task ID" << endl;
+        system("pause");
+    }
 }
 
 vector<vector<string>> Mascots;
@@ -186,6 +199,8 @@ void gotch_u() {
     cout << "`````````````````````````````````````````````" << endl;
     cout << " # LOGIN FAILED #" << endl;
     login_failed = true;
+    system("pause");
+
 
 }
 
@@ -230,17 +245,15 @@ void delete_account (bool AlsoClearData) {
         cout << " (\\__/)    +-------------+" << endl;
         cout << " ( T T)  <{ ~Aarigato~.. |" << endl;
         cout << "  /  |     +-------------+" << endl;
-
-        cout << "         # [E: to exit] >>> ";
-        cin  >> password;
+        system("pause");
     } else {
         cout << " (\\__/)    +--------------------------------------------------+" << endl;
         cout << " ( . .)  <{ HUH-?...DIDN'T EXPECT YOU TO ENTER WRONG PASSWORD |" << endl;
         cout << "  /  |     +--------------------------------------------------+" << endl;
 
         cout << "         # ACCOUNT DELETION FAILED # " << endl;
-        cout << "         # [E: to exit] >>> ";
-        cin  >> password;
+        system("pause");
+
     }
 }
 
@@ -263,9 +276,8 @@ void Account_Panel() {
         cin  >> new_username;
         USER_CRED[1] = new_username;
         cout << "               # New USERNAME: " << USER_CRED[1] << endl;
-        cout << "               # [press any key to exit] #" << endl;
-        cout << "               # >>> " << endl;
-        cin  >> new_username;
+        system("pause");
+
     } else if (input == "p" || input == "P") {
         string new_password, confirm_new_password;
         cout << "               # Enter   new PASSWORD: ";
@@ -273,16 +285,16 @@ void Account_Panel() {
         while(new_password!=confirm_new_password) {
             cout << "               # Confirm new PASSWORD: ";
             cin  >> confirm_new_password;
-            if (new_password!=confirm_new_password)
+            if (new_password!=confirm_new_password) {
                 cout << "               # Confirm Password not same as above # " << endl;
                 cout << "               # Please re-enter # " << endl;
+            }
         }
 
         USER_CRED[2] = confirm_new_password;
         cout << "               # New PASSWORD: " << USER_CRED[2] << endl;
-        cout << "               # [press any key to exit] #" << endl;
-        cout << "               # >>> " << endl;
-        cin  >> new_password;
+        system("pause");
+
     } else if (input == "d" || input == "D") {
         string response;
         cout << "               # Do you wish to keep your current tasks ? [y/n]: ";
@@ -297,8 +309,10 @@ void Account_Panel() {
         }
         else {
             cout << "           # Not a valid response #" << endl;
-            cout << "           # [E: to exit] >>> ";
-            cin  >> response;
+            system("pause");
+            admin_panel_exit = true;
+
+
         }
     } else if (input == "e" || input == "E") {
         admin_panel_exit = true;
@@ -308,6 +322,7 @@ void Account_Panel() {
 }
 
 void account_manager() {
+    admin_panel_exit = false;
     if (USER_CRED[0] == "0") {
         string entered_username, entered_password, entered_confirmation_password;
         cout << "         # Let's Create Your Account #" << endl;
@@ -400,12 +415,17 @@ void ask_user () {
         int Modifying_id;
         cout << "           >>> ";
         cin >> Modifying_id;
+        if (Modifying_id <= TaskIDs.size()) {
         cout << "       # Current task: " << FILE_LINES[Modifying_id - 1][1] << endl;
         cout << "       # Enter new task: ";
         string task;
         cin.ignore();
         getline(cin, task);        
         modify_task(Modifying_id, task);
+        } else {
+            cout << "Invalid ID" << endl;
+            system("pause");
+        }
     }
     else if (input == "a" || input == "A") {
         account_manager();
